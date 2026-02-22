@@ -8,7 +8,7 @@ from fpdf import FPDF
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-from flask import Flask, request, jsonify, send_from_directory, session
+from flask import Flask, request, jsonify, send_from_directory, session, render_template
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
@@ -19,6 +19,11 @@ CORS(app, supports_credentials=True)
 DB_FILE = "sgsound.db"
 UPLOAD_FOLDER = 'uploads'
 otp_storage = {}
+
+@app.route('/')
+def home():
+    # This tells Flask to look for index.html and show it to the user
+    return render_template('index.html')
 
 # Ensure upload directory exists
 if not os.path.exists(UPLOAD_FOLDER):
