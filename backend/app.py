@@ -19,6 +19,12 @@ CORS(app, supports_credentials=True)
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 DB_FILE = os.path.join(basedir, "sgsound.db")
+UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# This part is vital: it creates the folder if it's missing on Render
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 otp_storage = {}
 UPLOAD_FOLDER = 'backend/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
