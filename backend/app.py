@@ -16,10 +16,12 @@ app = Flask(__name__)
 app.secret_key = "sgsoundserve_mfa_secret_2024"
 CORS(app, supports_credentials=True)
 
-DB_FILE = "sgsound.db"
-UPLOAD_FOLDER = 'uploads'
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
+DB_FILE = os.path.join(basedir, "sgsound.db")
 otp_storage = {}
-
+UPLOAD_FOLDER = 'backend/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/')
 def home():
     # This tells Flask to look for index.html and show it to the user
@@ -32,9 +34,9 @@ if not os.path.exists(UPLOAD_FOLDER):
 # --- EMAIL CONFIGURATION ---
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-SENDER_EMAIL = "sgsoundserve@gmail.com"
-SENDER_PASSWORD = "buna dbuv tckx mhqy" 
-
+import os
+SENDER_EMAIL = os.environ.get('sgsoundserve@gmail.com')
+SENDER_PASSWORD = os.environ.get('buna dbuv tckx mhqy')
 def get_db_connection():
     conn = sqlite3.connect(DB_FILE, timeout=10.0)
     conn.row_factory = sqlite3.Row
