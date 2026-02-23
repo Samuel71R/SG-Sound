@@ -8,13 +8,13 @@ from fpdf import FPDF
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-from flask import Flask, request, jsonify, send_from_directory, session, render_template
+from flask import Flask, request, jsonify, send_from_directory, session
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-app = Flask(__name__, template_folder=basedir)
+app = Flask(__name__)
 app.secret_key = "sgsoundserve_mfa_secret_2024"
 CORS(app, supports_credentials=True)
 
@@ -28,8 +28,7 @@ if not os.path.exists(UPLOAD_FOLDER):
 otp_storage = {}
 @app.route('/')
 def home():
-    # This tells Flask to look for index.html and show it to the user
-    return render_template('index.html')
+    return send_from_directory(basedir, 'index.html')
 
 # Ensure upload directory exists
 if not os.path.exists(UPLOAD_FOLDER):
@@ -553,7 +552,7 @@ def resolve_ticket(id):
 
 @app.route('/admin')
 def admin_portal():
-    return render_template('admin.html')
+    return send_from_directory(basedir, 'admin.html')
 
 if __name__ == '__main__':
     init_db()
