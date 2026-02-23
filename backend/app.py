@@ -553,6 +553,10 @@ def resolve_ticket(id):
     conn.close()
     return jsonify({"success": True})
 
+@app.route('/admin')
+def admin_portal():
+    return render_template('admin.html')
+
 if __name__ == '__main__':
     init_db()
     print("SG Sound Serve Server Running on port 5001...")
