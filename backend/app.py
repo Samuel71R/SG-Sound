@@ -8,7 +8,7 @@ from fpdf import FPDF
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-from flask import Flask, request, jsonify, send_from_directory, session
+from flask import Flask, request, jsonify, send_from_directory, session, render_template
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
@@ -26,18 +26,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 otp_storage = {}
+
 @app.route('/')
 def home():
-    return send_from_directory(basedir, 'index.html')
-
-# Ensure upload directory exists
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+    return render_template('index.html')
 
 # --- EMAIL CONFIGURATION ---
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-import os
 SENDER_EMAIL = os.environ.get('SENDER_EMAIL', 'sgsoundserve@gmail.com')
 SENDER_PASSWORD = os.environ.get('SENDER_PASSWORD', 'buna dbuv tckx mhqy')
 def get_db_connection():
@@ -552,7 +548,7 @@ def resolve_ticket(id):
 
 @app.route('/admin')
 def admin_portal():
-    return send_from_directory(basedir, 'admin.html')
+    return render_template('admin.html')
 
 if __name__ == '__main__':
     init_db()
