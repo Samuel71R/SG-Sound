@@ -1140,10 +1140,7 @@
         </div>
         <div style="margin-top: 20px">
           <a
-            <a href="/admin" class="admin-link">Admin Portal Access</a>
-            target="_blank"
-            style="color: var(--text-muted); font-size: 0.8rem"
-            >Admin Portal Access</a
+            <a href="/admin" target="_blank" class="admin-link" style="color: var(--text-muted); font-size: 0.8rem; text-decoration: none;">Admin Portal Access</a>
           >
         </div>
       </div>
@@ -2648,8 +2645,8 @@
     </div>
 
     <script>
-      const API_URL = "http://localhost:5001/api";
-      const BASE_URL = "http://localhost:5001";
+      const API_URL = window.location.origin + "/api";
+      const BASE_URL = window.location.origin;
       let currentUser = "";
       let currentUserEmail = "";
       let products = [];

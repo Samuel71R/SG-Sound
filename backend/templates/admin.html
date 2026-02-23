@@ -1116,8 +1116,8 @@
     </script>
 
     <script>
-                    const API_URL = "http://127.0.0.1:5001/api";
-                    const BASE_URL = "http://127.0.0.1:5001";
+                    const API_URL = window.location.origin + "/api";
+                    const BASE_URL = window.location.origin;
 
                     let products = [], tickets = [], orders = [], catalogList = [];
                     let currentTicketId = null;

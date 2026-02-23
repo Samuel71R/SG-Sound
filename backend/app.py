@@ -12,12 +12,12 @@ from flask import Flask, request, jsonify, send_from_directory, session, render_
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(__name__, template_folder=basedir)
 app.secret_key = "sgsoundserve_mfa_secret_2024"
 CORS(app, supports_credentials=True)
 
-import os
-basedir = os.path.abspath(os.path.dirname(__file__))
 DB_FILE = os.path.join(basedir, "sgsound.db")
 UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -26,8 +26,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 otp_storage = {}
-UPLOAD_FOLDER = 'backend/uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/')
 def home():
     # This tells Flask to look for index.html and show it to the user
@@ -41,8 +39,8 @@ if not os.path.exists(UPLOAD_FOLDER):
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 import os
-SENDER_EMAIL = os.environ.get('sgsoundserve@gmail.com')
-SENDER_PASSWORD = os.environ.get('buna dbuv tckx mhqy')
+SENDER_EMAIL = os.environ.get('SENDER_EMAIL', 'sgsoundserve@gmail.com')
+SENDER_PASSWORD = os.environ.get('SENDER_PASSWORD', 'buna dbuv tckx mhqy')
 def get_db_connection():
     conn = sqlite3.connect(DB_FILE, timeout=10.0)
     conn.row_factory = sqlite3.Row
@@ -395,7 +393,7 @@ def register():
     data = request.json
     conn = get_db_connection()
     try:
-        conn.execute('INSERT INTO users VALUES (?,?,?)', (data['email'], data['password'], data['username']))
+        conn.execute('INSERT INTO users VALUES (?,?,?,NULL)', (data['email'], data['password'], data['username']))
         conn.commit()
         
         welcome_msg = f"Hello {data['username']}, Welcome to SG SOUND SERVE! You have successfully registered as a partner. You can now log in to the portal to request quotes and manage orders."
